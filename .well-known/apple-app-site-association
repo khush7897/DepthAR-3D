@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "COM.KHUSH7897.DEPTHAR3D",
+        "paths": [ "*", "/ar/*", "/3d/*" ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [ "COM.KHUSH7897.DEPTHAR3D" ]
+  }
+}
