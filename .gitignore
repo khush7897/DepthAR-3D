@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+python_app/.buildozer/
+python_app/bin/
+
+# Environment and Local DB
+*.db
+.env
+client/.env
+server/.env
+
+# Build outputs
+dist/
+client/dist/
+build/
+*.apk
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
