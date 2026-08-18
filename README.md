@@ -1,6 +1,6 @@
 # DepthAR — 2D to 3D Augmented Reality Converter 🚀
 
-> **Turn any 2D photo into a photorealistic 3D AR spatial model with interactive component detection and spatial label anchoring.**
+> **Turn any 2D photo into a photorealistic 3D AR spatial model with real-time depth mesh extrusion.**
 
 ![DepthAR Banner](https://img.shields.io/badge/Three.js-r128-teal?style=for-the-badge&logo=three.js)
 ![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)
@@ -16,8 +16,7 @@
 
 - 📸 **Instant 2D-to-3D Depth Extrusion**: Converts portraits, cars, objects, landscapes, and architectural photos into 3D relief meshes instantly.
 - 🎨 **Photorealistic PBR Shading & Normal Mapping**: Dynamic heightmap-to-normalmap conversion with specular lighting, anisotropic texture filtering, and high-DPI rendering.
-- 🎯 **Interactive Click-to-Point 3D Highlighting**: Click any component label (e.g. *Car Bonnet*, *Windscreen*, *Roof*, *Wheel*) in the top-right panel to spawn a glowing 3D beacon pin and focus the camera on that exact 3D part.
-- 🏷️ **AI Component Detection**: Uses Claude Vision AI to identify anatomical and structural components of subjects with depth estimation.
+- 🎛️ **Customizable Mesh Controls**: Adjustable depth extrusion scale, tessellation resolution, box-filter depth smoothing, and wireframe mode.
 - 🌐 **Full-Stack Application**: Node.js/Express REST API backend with SQLite storage (`depthar.db`), JWT Authentication, and a modern Vite React frontend.
 - 📱 **Mobile APK Ready**: Contains a Python/Kivy + C++ native depth engine ready for Android APK compilation via Buildozer.
 

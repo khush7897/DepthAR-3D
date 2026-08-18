@@ -835,183 +835,6 @@
             height: 100% !important;
         }
 
-        /* ── CSS2D label renderer overlay ── */
-        #label-renderer {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 20;
-            overflow: hidden;
-        }
-
-        /* ── 3D Spatial AR Labels (rendered by CSS2DRenderer logic) ── */
-        .ar3d-label {
-            position: absolute;
-            pointer-events: auto;
-            transform: translate(-50%, -100%);
-            cursor: default;
-            animation: labelPop .35s cubic-bezier(.34, 1.56, .64, 1) both;
-        }
-
-        @keyframes labelPop {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -80%) scale(.7)
-            }
-
-            to {
-                opacity: 1;
-                transform: translate(-50%, -100%) scale(1)
-            }
-        }
-
-        .ar3d-inner {
-            background: rgba(6, 8, 16, .92);
-            backdrop-filter: blur(14px) saturate(180%);
-            border: 1px solid;
-            border-radius: 8px;
-            padding: 8px 12px;
-            max-width: 240px;
-            white-space: normal;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-family: var(--font-mono);
-            font-size: .68rem;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, .6);
-            position: relative;
-        }
-
-        .ar3d-inner::after {
-            content: '';
-            position: absolute;
-            bottom: -7px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 4px solid transparent;
-            border-top-color: inherit;
-        }
-
-        .ar3d-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .ar3d-name {
-            font-weight: 500;
-        }
-
-        .ar3d-conf {
-            font-size: .58rem;
-            opacity: .6;
-        }
-
-        .ar3d-dist {
-            font-size: .58rem;
-            opacity: .7;
-            margin-left: 2px;
-        }
-
-        /* Connector line from label to mesh point */
-        .ar3d-line {
-            position: absolute;
-            width: 1px;
-            transform-origin: top center;
-            pointer-events: none;
-            opacity: .5;
-        }
-
-        /* ── VIEWER TOP-RIGHT SIDE PANEL CHIPS ── */
-        .viewer-side-labels {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 25;
-            pointer-events: auto;
-            max-height: 75vh;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .side-chip {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            background: rgba(6, 8, 16, 0.88);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border2);
-            border-radius: 8px;
-            padding: 8px 12px;
-            max-width: 250px;
-            font-family: var(--font-mono);
-            font-size: 0.65rem;
-            color: var(--text2);
-            cursor: pointer;
-            transition: all 0.25s ease;
-            pointer-events: auto;
-        }
-
-        .side-chip:hover {
-            background: rgba(0, 232, 200, 0.15);
-            border-color: var(--teal);
-            transform: translateX(-4px);
-            box-shadow: 0 4px 16px rgba(0, 232, 200, 0.25);
-        }
-
-        .side-chip.active {
-            background: rgba(0, 232, 200, 0.25);
-            border-color: var(--teal);
-            box-shadow: 0 0 20px rgba(0, 232, 200, 0.5);
-        }
-
-        .side-chip {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            background: rgba(6, 8, 16, .82);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border2);
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-family: var(--font-mono);
-            font-size: .65rem;
-            color: var(--text2);
-            animation: slideRight .3s ease both;
-            pointer-events: auto;
-            cursor: default;
-        }
-
-        @keyframes slideRight {
-            from {
-                opacity: 0;
-                transform: translateX(10px)
-            }
-
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-
-        .side-chip-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .side-chip-cat {
-            font-size: .56rem;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: .06em;
-        }
-
         /* ── VIEWER BOTTOM BAR ── */
         .viewer-bottom {
             position: absolute;
@@ -1643,49 +1466,21 @@
             <div class="panel viewer-panel">
                 <div class="panel-header">
                     <span class="panel-title">🌐 3D AR Scene</span>
-                    <span class="panel-pill">WebGL · Spatial Labels · Orbit</span>
+                    <span class="panel-pill">WebGL · Orbit Controls</span>
                 </div>
 
                 <div class="viewer-body">
                     <!-- Three.js renders here -->
                     <div id="canvas-mount"></div>
 
-                    <!-- CSS2D spatial label overlay -->
-                    <div id="label-renderer"></div>
-
-                    <!-- Side label list -->
-                    <div class="viewer-side-labels" id="side-labels"></div>
-
                     <!-- Bottom bar -->
                     <div class="viewer-bottom">
                         <span class="viewer-hint-txt">Drag to orbit · Scroll to zoom · Right-drag to pan</span>
                         <div class="viewer-btns">
-                            <button class="vbtn on" id="btn-labels">◉ Labels</button>
                             <button class="vbtn on" id="btn-rotate">⏸ Auto-Rotate</button>
                             <button class="vbtn" id="btn-reset">⟳ Reset</button>
                         </div>
                     </div>
-                </div>
-
-                <!-- Results -->
-                <div class="results-panel" id="results-panel">
-                    <div class="results-top">
-                        <span class="results-heading">Detection Results</span>
-                        <span class="results-meta" id="results-meta">—</span>
-                    </div>
-                    <div class="metrics-row" id="metrics-row"></div>
-                    <table class="det-table" id="det-table">
-                        <thead>
-                            <tr>
-                                <th>Object</th>
-                                <th>Category</th>
-                                <th>Display Detail / Description</th>
-                                <th>Confidence</th>
-                                <th>Est. Depth</th>
-                            </tr>
-                        </thead>
-                        <tbody id="det-tbody"></tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -1851,11 +1646,8 @@
             imageEl: null,
             depthMap: null, dW: 0, dH: 0,
             mode: 'textured',
-            labelsVisible: true,
             autoRotate: true,
-            converting: false,
-            labels: [],          // [{name,conf,depth,category,u,v,colour}]
-            label3DObjects: [],  // DOM nodes + world positions
+            converting: false
         };
 
         /* ─────────────────────────────────────
@@ -1874,9 +1666,6 @@
         const progFill = $('prog-fill');
         const sDot = $('s-dot');
         const sTxt = $('s-txt');
-        const labelRenderer = $('label-renderer');
-        const sideLabels = $('side-labels');
-        const resultsPanel = $('results-panel');
         const depthCanvas = $('depth-canvas');
         const texCanvas = $('tex-canvas');
 
@@ -1895,7 +1684,6 @@
                 $(vid).textContent = $(sid).value;
                 if (S.depthMap && S.imageEl) {
                     rebuildMesh();
-                    updateLabel3DPositions();
                 }
             });
         });
@@ -1929,7 +1717,6 @@
             convertBtn.disabled = true;
             btnLbl.textContent = 'Upload an Image First';
             setProg(0); setStatus('', 'Waiting for image…');
-            clearLabels3D(); clearSideLabels(); resultsPanel.classList.remove('show');
         });
 
         function handleFile(file) {
@@ -1944,7 +1731,7 @@
                     uploadDrop.style.display = 'none';
                     imgMeta.textContent = `${img.naturalWidth}×${img.naturalHeight} · ${(file.size / 1024).toFixed(0)}KB`;
                     convertBtn.disabled = false;
-                    btnLbl.textContent = 'Convert to 3D + Detect Labels →';
+                    btnLbl.textContent = 'Convert to 3D AR →';
                     setStatus('ok', 'Image loaded — Converting to 3D AR Model...');
                     quickTexturePreview(img);
                     
@@ -2227,11 +2014,10 @@
                 camPhi = Math.max(.04, Math.min(Math.PI - .04, camPhi - dy * .007));
                 lastMX = { x: e.clientX, y: e.clientY };
                 syncCam();
-                updateLabel3DPositions(); // keep labels locked to mesh
             });
             el.addEventListener('wheel', e => {
                 camR = Math.max(.5, Math.min(10, camR + e.deltaY * .004));
-                syncCam(); updateLabel3DPositions();
+                syncCam();
                 e.preventDefault();
             }, { passive: false });
             let tp;
@@ -2240,7 +2026,7 @@
                 if (!tp) return;
                 const dx = e.touches[0].clientX - tp.clientX, dy = e.touches[0].clientY - tp.clientY;
                 camTheta -= dx * .009; camPhi = Math.max(.04, Math.min(Math.PI - .04, camPhi - dy * .009));
-                tp = e.touches[0]; syncCam(); updateLabel3DPositions();
+                tp = e.touches[0]; syncCam();
                 e.preventDefault();
             }, { passive: false });
         }
@@ -2249,7 +2035,6 @@
             frameId = requestAnimationFrame(loop);
             if (S.autoRotate && meshObj3 && !isDragging) {
                 camTheta += .0035; syncCam();
-                updateLabel3DPositions();
             }
             renderer3.render(scene3, camera3);
         }
@@ -2259,256 +2044,7 @@
             const W = mount.clientWidth, H = mount.clientHeight || 560;
             renderer3.setSize(W, H);
             camera3.aspect = W / H; camera3.updateProjectionMatrix();
-            updateLabel3DPositions();
         });
-
-        /* ─────────────────────────────────────
-           SPATIAL 3D LABELS (CSS2D-style)
-        ───────────────────────────────────── */
-        // Each label has a 3D world position; we project it to screen each frame.
-        // labelObjs: [{worldPos: THREE.Vector3, dom: HTMLElement, colour}]
-        const labelObjs = [];
-
-        function clearLabels3D() {
-            labelRenderer.innerHTML = '';
-            labelObjs.length = 0;
-        }
-        function clearSideLabels() { sideLabels.innerHTML = ''; }
-
-        function createLabel3D(label, worldPos, delay) {
-            const el = document.createElement('div');
-            el.className = 'ar3d-label';
-            el.style.animationDelay = delay + 's';
-
-            const inner = document.createElement('div');
-            inner.className = 'ar3d-inner';
-            inner.style.borderColor = label.colour + '77';
-            inner.style.setProperty('border-top-color', label.colour + '77');
-            
-            const description = label.desc || label.description || 'Component part';
-            
-            inner.innerHTML = `
-    <div class="ar3d-dot" style="background:${label.colour};margin-top:3px;box-shadow:0 0 8px ${label.colour}"></div>
-    <div style="display:flex;flex-direction:column;gap:2px">
-      <div style="display:flex;align-items:center;gap:6px">
-        <span class="ar3d-name" style="color:${label.colour};font-weight:700;font-size:0.72rem">${label.name}</span>
-        <span class="ar3d-dist" style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">${label.depth}</span>
-      </div>
-      <div style="font-size:0.62rem;color:rgba(232,236,248,0.88);margin-top:2px;line-height:1.25;font-family:var(--font-body)">
-        ${description}
-      </div>
-    </div>
-  `;
-            el.appendChild(inner);
-            labelRenderer.appendChild(el);
-            labelObjs.push({ worldPos, dom: el, colour: label.colour });
-        }
-
-        function worldToScreen(worldPos) {
-            const mount = $('canvas-mount');
-            const rect = mount.getBoundingClientRect();
-            const W = mount.clientWidth, H = mount.clientHeight || 560;
-
-            // Project world → NDC
-            const v = worldPos.clone().project(camera3);
-
-            // NDC → pixels (relative to mount)
-            const sx = (v.x + 1) / 2 * W;
-            const sy = (1 - (v.y + 1) / 2) * H;
-
-            return { x: sx, y: sy, behind: v.z > 1 };
-        }
-
-        function updateLabel3DPositions() {
-            labelObjs.forEach(obj => {
-                const { x, y, behind } = worldToScreen(obj.worldPos);
-                if (behind || x < 0 || x > $('canvas-mount').clientWidth || y < 0 || y > ($('canvas-mount').clientHeight || 560)) {
-                    obj.dom.style.display = 'none';
-                } else {
-                    obj.dom.style.display = 'block';
-                    obj.dom.style.left = x + 'px';
-                    obj.dom.style.top = y + 'px';
-                }
-            });
-        }
-
-        function spawnLabels3D(labels, meshW, meshH) {
-            clearLabels3D();
-            // Default 3D mesh clutter removed; items point out on label click!
-        }
-
-        let activePinMesh = null;
-
-        function highlight3DItem(lbl) {
-            clearLabels3D();
-            if (activePinMesh) {
-                scene3.remove(activePinMesh);
-                activePinMesh = null;
-            }
-
-            if (!S.imageEl) return;
-
-            const intensity = parseFloat($('sl-depth').value);
-            const asp = S.imageEl.naturalWidth / S.imageEl.naturalHeight;
-            const pw = 2.4, ph = pw / asp;
-
-            const u = typeof lbl.u === 'number' ? lbl.u : 0.5;
-            const v = typeof lbl.v === 'number' ? lbl.v : 0.5;
-
-            const xW = (u - 0.5) * pw;
-            const yH = (0.5 - v) * ph;
-            const zD = sampleDepth(u, v) * intensity;
-
-            const worldPos = new THREE.Vector3(xW, yH, zD);
-
-            // 1. Create Glowing 3D Target Pin & Ring
-            const pinGroup = new THREE.Group();
-
-            const sphereGeo = new THREE.SphereGeometry(0.06, 16, 16);
-            const sphereMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(lbl.colour) });
-            const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
-            sphereMesh.position.copy(worldPos);
-            pinGroup.add(sphereMesh);
-
-            const ringGeo = new THREE.TorusGeometry(0.16, 0.015, 16, 32);
-            const ringMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(lbl.colour), side: THREE.DoubleSide });
-            const ringMesh = new THREE.Mesh(ringGeo, ringMat);
-            ringMesh.position.copy(worldPos);
-            ringMesh.position.z += 0.02;
-            pinGroup.add(ringMesh);
-
-            const lineGeo = new THREE.BufferGeometry().setFromPoints([
-                worldPos,
-                new THREE.Vector3(worldPos.x, worldPos.y, worldPos.z + 0.35)
-            ]);
-            const lineMat = new THREE.LineBasicMaterial({ color: new THREE.Color(lbl.colour), linewidth: 2 });
-            const lineMesh = new THREE.Line(lineGeo, lineMat);
-            pinGroup.add(lineMesh);
-
-            activePinMesh = pinGroup;
-            scene3.add(activePinMesh);
-
-            // 2. Spawn 3D Focused Callout Label Card
-            createLabel3D(lbl, new THREE.Vector3(worldPos.x, worldPos.y, worldPos.z + 0.4), 0);
-            updateLabel3DPositions();
-
-            // 3. Camera Smooth Focus
-            const targetTheta = Math.atan2(worldPos.x, worldPos.z || 0.1);
-            camTheta = targetTheta;
-            camPhi = 0.55;
-            syncCam();
-        }
-
-        function buildSideLabels(labels) {
-            clearSideLabels();
-            if (!labels || !labels.length) return;
-
-            labels.forEach((lbl, idx) => {
-                const el = document.createElement('div');
-                el.className = 'side-chip';
-                el.style.animationDelay = (idx * 0.06) + 's';
-                el.style.borderColor = lbl.colour + '55';
-
-                const description = lbl.desc || lbl.description || 'Component part';
-
-                el.innerHTML = `
-      <div class="side-chip-dot" style="background:${lbl.colour};margin-top:3px;box-shadow:0 0 6px ${lbl.colour}"></div>
-      <div style="display:flex;flex-direction:column;gap:2px;flex-grow:1">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
-          <span style="color:${lbl.colour};font-weight:700;font-size:0.75rem">${lbl.name}</span>
-          <span style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px;font-size:0.58rem;color:var(--text2)">${lbl.depth}</span>
-        </div>
-        <div style="font-size:0.64rem;color:rgba(232,236,248,0.8);line-height:1.25">
-          ${description}
-        </div>
-      </div>
-    `;
-
-                // Click label chip to point out & highlight object on 3D mesh!
-                el.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    document.querySelectorAll('.side-chip').forEach(c => c.classList.remove('active'));
-                    el.classList.add('active');
-                    highlight3DItem(lbl);
-                });
-
-                sideLabels.appendChild(el);
-            });
-        }
-
-        /* ─────────────────────────────────────
-           AI LABEL DETECTION
-        ───────────────────────────────────── */
-        async function detectLabelsAI(dataURL) {
-            const b64 = dataURL.split(',')[1];
-            const mime = (dataURL.match(/data:([^;]+);/) || ['', 'image/jpeg'])[1];
-
-            const prompt = `Analyse this image in extreme detail and identify ALL specific structural components, sub-parts, and anatomical sections of the primary subject in the photo.
-For example:
-- If a Car: Bonnet/Hood, Roof, Front Windscreen, Driver Door, Headlight Unit, Front Wheel & Rim, Front Grille, Side Mirror, Rear Bumper.
-- If a Person: Face/Head, Torso/Jacket, Left Arm, Right Hand, Legs/Jeans.
-- If a Laptop/Gadget: Screen/Display, Keyboard, Trackpad, Hinge, Speaker Mesh, Port.
-- If a Building: Roof/Spire, Glass Facade, Main Entrance, Balcony, Pillars.
-
-For EACH specific structural component/part, return a JSON object with:
-- name: specific component name (e.g. "Car Bonnet / Hood", "Front Windscreen", "Vehicle Roof", "Front Left Wheel & Rim", "Headlight Unit", "Driver Side Door", "Front Grille")
-- category: general category (vehicle, person, electronics, building, furniture, art, other)
-- conf: confidence score 0.85 to 0.99
-- depth: estimated distance like "0.8m", "1.2m", "1.5m", "2.0m"
-- desc: short description of this specific component (e.g. "Front engine hood panel & body crease", "Laminated glass windshield & A-pillar", "Alloy wheel rim & low-profile tire")
-- u: exact horizontal UV position 0.0 (left) to 1.0 (right) pointing directly to this part on the image
-- v: exact vertical UV position 0.0 (top) to 1.0 (bottom) pointing directly to this part on the image
-
-Identify 5-9 distinct structural components. Be extremely precise with u and v coordinates so each 3D AR label points directly to its exact part on the 3D mesh surface!
-Return ONLY a valid JSON array. Example:
-[{"name":"Car Bonnet / Hood","category":"vehicle","conf":0.98,"depth":"0.9m","desc":"Front engine hood panel & aerodynamic crease","u":0.45,"v":0.62}]`;
-
-            try {
-                const resp = await fetch('https://api.anthropic.com/v1/messages', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: 'claude-sonnet-4-20250514',
-                        max_tokens: 1400,
-                        messages: [{
-                            role: 'user',
-                            content: [
-                                { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
-                                { type: 'text', text: prompt }
-                            ]
-                        }]
-                    })
-                });
-                if (!resp.ok) throw new Error('HTTP ' + resp.status);
-                const data = await resp.json();
-                const raw = data.content.map(c => c.text || '').join('').trim();
-                const clean = raw.replace(/```json|```/g, '').trim();
-                const parsed = JSON.parse(clean);
-                if (!Array.isArray(parsed)) throw new Error('Not array');
-                return parsed.slice(0, 9).map((l, i) => ({
-                    ...l,
-                    name: l.name || 'Component Part',
-                    conf: typeof l.conf === 'number' ? l.conf : 0.9,
-                    depth: l.depth || `${(0.8 + i * .4).toFixed(1)}m`,
-                    category: l.category || 'other',
-                    desc: l.desc || l.description || 'Structural component part in 3D AR space',
-                    u: typeof l.u === 'number' ? Math.max(0.05, Math.min(0.95, l.u)) : 0.3 + Math.random() * .4,
-                    v: typeof l.v === 'number' ? Math.max(0.05, Math.min(0.95, l.v)) : 0.2 + Math.random() * .6,
-                    colour: COLOURS[i % COLOURS.length]
-                }));
-            } catch (err) {
-                console.warn('AI detection failed, using smart component fallback:', err);
-                return [
-                    { name: 'Vehicle Roof / Top', category: 'vehicle', conf: .96, depth: '1.4m', desc: 'Upper cabin roof panel & headline structure', u: 0.5, v: 0.28, colour: COLOURS[0] },
-                    { name: 'Front Windscreen', category: 'vehicle', conf: .94, depth: '1.2m', desc: 'Laminated glass windshield & A-pillar frame', u: 0.48, v: 0.42, colour: COLOURS[1] },
-                    { name: 'Car Bonnet / Hood', category: 'vehicle', conf: .98, depth: '0.9m', desc: 'Front engine hood panel & body crease', u: 0.45, v: 0.62, colour: COLOURS[2] },
-                    { name: 'Headlight Unit', category: 'vehicle', conf: .92, depth: '0.8m', desc: 'LED projector headlight & daytime running light', u: 0.68, v: 0.68, colour: COLOURS[3] },
-                    { name: 'Front Left Wheel', category: 'vehicle', conf: .95, depth: '0.9m', desc: 'Alloy wheel rim & low-profile pneumatic tire', u: 0.25, v: 0.72, colour: COLOURS[4] },
-                    { name: 'Side Door & Handle', category: 'vehicle', conf: .91, depth: '1.5m', desc: 'Passenger door panel & aerodynamic side mirror', u: 0.32, v: 0.52, colour: COLOURS[5] },
-                    { name: 'Front Grille & Badge', category: 'vehicle', conf: .93, depth: '0.7m', desc: 'Radiator intake grille & front emblem', u: 0.55, v: 0.72, colour: COLOURS[6] }
-                ];
-            }
-        }
 
         /* ─────────────────────────────────────
            MAIN CONVERT HANDLER
@@ -2519,41 +2055,26 @@ Return ONLY a valid JSON array. Example:
             convertBtn.disabled = true;
             btnLbl.style.display = 'none';
             btnSpin.style.display = 'block';
-            clearLabels3D(); clearSideLabels();
-            resultsPanel.classList.remove('show');
             setProg(0);
 
             const t0 = performance.now();
             try {
-                setStatus('busy', 'Reading image pixels…'); setProg(8); await sleep(60);
+                setStatus('busy', 'Reading image pixels…'); setProg(15); await sleep(60);
 
                 const intensity = parseFloat($('sl-depth').value);
                 const segs = parseInt($('sl-res').value);
                 const smooth = parseInt($('sl-smooth').value);
 
-                setStatus('busy', 'Computing depth map (BT.601 luminance)…'); setProg(20); await sleep(40);
+                setStatus('busy', 'Computing depth map (BT.601 luminance)…'); setProg(45); await sleep(40);
                 computeDepth(S.imageEl, smooth);
-                setProg(38); await sleep(50);
+                setProg(75); await sleep(50);
 
-                setStatus('busy', 'Tessellating 3D mesh…'); setProg(50); await sleep(60);
-                const meshDims = rebuildMesh();
-                setProg(65); await sleep(40);
-
-                setStatus('busy', 'Running AI object detection…'); setProg(72);
-                const labels = await detectLabelsAI(previewImg.src);
-                S.labels = labels;
-                setProg(90); await sleep(30);
-
-                setStatus('busy', 'Anchoring AR labels in 3D space…'); await sleep(40);
-                const asp = S.imageEl.naturalWidth / S.imageEl.naturalHeight;
-                const pw = 2.4, ph = pw / asp;
-                spawnLabels3D(labels, pw, ph);
-                buildSideLabels(labels);
+                setStatus('busy', 'Tessellating 3D mesh…'); setProg(90); await sleep(60);
+                rebuildMesh();
                 setProg(100);
 
                 const elapsed = Math.round(performance.now() - t0);
-                setStatus('ok', `Done in ${elapsed}ms — ${labels.length} objects labelled on 3D mesh`);
-                showResults(labels, elapsed, segs);
+                setStatus('ok', `Done in ${elapsed}ms — 3D mesh rendered successfully`);
 
             } catch (e) {
                 setStatus('err', 'Error: ' + e.message);
@@ -2568,64 +2089,8 @@ Return ONLY a valid JSON array. Example:
         });
 
         /* ─────────────────────────────────────
-           RESULTS TABLE
-        ───────────────────────────────────── */
-        function showResults(labels, elapsed, segs) {
-            resultsPanel.classList.add('show');
-            $('results-meta').textContent = `Processed in ${elapsed}ms`;
-
-            $('metrics-row').innerHTML = `
-    <div class="metric-card"><div class="metric-card-val">${labels.length}</div><div class="metric-card-lbl">Labels</div></div>
-    <div class="metric-card"><div class="metric-card-val">${(segs * segs).toLocaleString()}</div><div class="metric-card-lbl">Vertices</div></div>
-    <div class="metric-card"><div class="metric-card-val">${S.dW}×${S.dH}</div><div class="metric-card-lbl">Depth Map</div></div>
-    <div class="metric-card"><div class="metric-card-val">${elapsed}ms</div><div class="metric-card-lbl">Total Time</div></div>
-  `;
-
-            $('det-tbody').innerHTML = labels.map((l, idx) => {
-                const confPct = (l.conf * 100).toFixed(0);
-                const description = l.desc || l.description || '3D object surface element';
-                return `<tr style="cursor:pointer" onclick="highlightTableItem(${idx})">
-      <td><span class="det-color-swatch" style="background:${l.colour}"></span>${l.name}</td>
-      <td><span class="cat-badge">${l.category}</span></td>
-      <td><span style="font-size:0.75rem;color:var(--text2)">${description}</span></td>
-      <td>
-        <div class="det-conf-bar">
-          <div class="det-conf-track"><div class="det-conf-fill" style="width:${confPct}%;background:${l.colour}"></div></div>
-          <span class="det-conf-num">${confPct}%</span>
-        </div>
-      </td>
-      <td><span class="depth-badge">${l.depth}</span></td>
-    </tr>`;
-            }).join('');
-        }
-
-        window.highlightTableItem = function(idx) {
-            if (S.labels && S.labels[idx]) {
-                const chips = document.querySelectorAll('.side-chip');
-                if (chips[idx]) {
-                    chips.forEach(c => c.classList.remove('active'));
-                    chips[idx].classList.add('active');
-                }
-                highlight3DItem(S.labels[idx]);
-            }
-        };
-
-        /* ─────────────────────────────────────
            VIEWER BUTTONS
         ───────────────────────────────────── */
-        $('btn-labels').addEventListener('click', function () {
-            S.labelsVisible = !S.labelsVisible;
-            this.classList.toggle('on', S.labelsVisible);
-            this.textContent = S.labelsVisible ? '◉ Labels' : '◎ Labels';
-            if (S.labelsVisible && S.labels.length) {
-                const asp = S.imageEl ? S.imageEl.naturalWidth / S.imageEl.naturalHeight : 1;
-                spawnLabels3D(S.labels, 2.4, 2.4 / asp);
-                buildSideLabels(S.labels);
-            } else {
-                clearLabels3D(); clearSideLabels();
-            }
-        });
-
         $('btn-rotate').addEventListener('click', function () {
             S.autoRotate = !S.autoRotate;
             this.classList.toggle('on', S.autoRotate);
@@ -2633,7 +2098,7 @@ Return ONLY a valid JSON array. Example:
         });
 
         $('btn-reset').addEventListener('click', () => {
-            camPhi = 0.55; camTheta = 0.25; camR = 2.8; syncCam(); updateLabel3DPositions();
+            camPhi = 0.55; camTheta = 0.25; camR = 2.8; syncCam();
         });
 
         /* ─────────────────────────────────────
@@ -2642,7 +2107,6 @@ Return ONLY a valid JSON array. Example:
         window.addEventListener('load', () => {
             initThree();
             $('btn-rotate').classList.add('on');
-            $('btn-labels').classList.add('on');
             setStatus('', 'Ready — upload any photo to begin.');
         });
     </script>
