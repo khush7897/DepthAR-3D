@@ -8,6 +8,8 @@
 ![Python](https://img.shields.io/badge/Python-Kivy-yellow?style=for-the-badge&logo=python)
 ![C++](https://img.shields.io/badge/C++-Native_Engine-blue?style=for-the-badge&logo=cplusplus)
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/khush7897/DepthAR-3D)
+
 ---
 
 ## ✨ Features
